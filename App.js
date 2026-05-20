@@ -1,7 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity, TextInput, Alert, Switch, FlatList } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity, TextInput, Alert, Switch, FlatList, SafeAreaView } from 'react-native';
 
 const COLORS = {
   primary: '#2E7D32',
