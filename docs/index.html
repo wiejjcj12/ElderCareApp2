@@ -1,42 +1,267 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ElderCareApp2</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>智慧生活</title>
 <style>
-html,body{height:100%}
-body{overflow:hidden}
-#root{display:flex;height:100%;flex-direction:column}
 *{margin:0;padding:0;box-sizing:border-box}
-header{background:#1976D2;color:#fff;padding:15px;font-size:20px;text-align:center;font-weight:bold}
-main{flex:1;padding:20px;overflow:auto;background:#f5f5f5}
-.btn{display:block;width:100%;max-width:400px;margin:10px auto;padding:15px 20px;background:#1976D2;color:#fff;border:none;border-radius:8px;font-size:16px;cursor:pointer}
-.btn:active{background:#1565C0}
-.btn-secondary{background:#4CAF50}
-.info-card{background:#fff;padding:15px;border-radius:8px;margin:15px 0;box-shadow:0 2px 4px rgba(0,0,0,0.1)}
-.info-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #eee}
-.info-label{color:#666}
-.info-value{font-weight:500}
-footer{background:#fafafa;padding:10px;text-align:center;color:#999;font-size:12px}
+:root{--primary:#2E7D32;--primaryLight:#4CAF50;--primaryDark:#1B5E20;--accent:#FF6F00;--bg:#F5F5F5;--card:#FFF;--text:#212121;--textSec:#757575;--border:#E0E0E0;--danger:#D32F2F;--info:#1565C0}
+html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);overflow:hidden}
+#app{display:flex;flex-direction:column;height:100%;max-width:480px;margin:0 auto;position:relative}
+.screen{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:16px;padding-bottom:8px;display:none}
+.screen.active{display:block}
+.header{margin-bottom:12px}
+.header h1{font-size:26px;font-weight:bold;color:var(--primary)}
+.header p{font-size:16px;color:var(--textSec);margin-top:2px}
+.card{background:var(--card);border-radius:16px;padding:16px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,0.06)}
+.card-title{display:flex;align-items:center;margin-bottom:10px;gap:8px}
+.card-title span:first-child{font-size:22px}
+.card-title span:last-child{font-size:22px;font-weight:bold;color:var(--primary)}
+.section-title{font-size:22px;font-weight:bold;color:var(--text);margin:12px 0}
+.grid{display:flex;flex-wrap:wrap;gap:8px}
+.icon-btn{width:31%;background:var(--card);border-radius:16px;padding:16px 8px;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,0.05);cursor:pointer;border:none;font-size:inherit}
+.icon-btn:active{transform:scale(0.96)}
+.icon-btn .emoji{font-size:32px;display:block}
+.icon-btn .label{font-size:16px;color:var(--text);margin-top:4px;display:block}
+.danger-btn{background:var(--danger);color:#fff;padding:16px;border-radius:12px;text-align:center;font-size:20px;font-weight:bold;border:none;width:100%;cursor:pointer}
+.danger-btn:active{opacity:0.8}
+/* Health */
+.med-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border)}
+.med-name{font-size:17px;font-weight:600}
+.med-name.done{text-decoration:line-through;color:var(--textSec)}
+.med-time{font-size:14px;color:var(--textSec)}
+.switch{position:relative;width:48px;height:28px;cursor:pointer}
+.switch input{display:none}
+.switch .slider{position:absolute;inset:0;background:var(--border);border-radius:14px;transition:.3s}
+.switch .slider:before{content:'';position:absolute;width:22px;height:22px;border-radius:50%;background:#fff;top:3px;left:3px;transition:.3s}
+.switch input:checked+.slider{background:var(--primaryLight)}
+.switch input:checked+.slider:before{transform:translateX(20px)}
+.input-row{display:flex;gap:8px;margin-bottom:12px;align-items:center}
+.input-row input{flex:1;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:12px;font-size:16px;outline:none}
+.input-row input:focus{border-color:var(--primary)}
+.input-row span{font-size:22px;color:var(--textSec)}
+.save-btn{background:var(--primary);color:#fff;border:none;border-radius:12px;padding:14px;font-size:17px;font-weight:bold;width:100%;cursor:pointer;margin-top:8px}
+.save-btn:active{opacity:0.8}
+.record-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:16px}
+.record-val{font-weight:600;color:var(--primary)}
+.record-date{color:var(--textSec);font-size:14px}
+/* Social */
+.contact-row{display:flex;align-items:center;padding:10px 0;border-bottom:1px solid var(--border)}
+.contact-emoji{font-size:30px;margin-right:12px}
+.contact-info{flex:1}
+.contact-name{font-size:17px;font-weight:600}
+.contact-phone{font-size:14px;color:var(--textSec)}
+.contact-btns{display:flex;gap:10px}
+.contact-btn{background:var(--bg);border:none;border-radius:10px;padding:8px;font-size:20px;cursor:pointer}
+.photo-grid{display:flex;flex-wrap:wrap;gap:8px}
+.photo-item{width:47%;background:var(--bg);border-radius:12px;padding:16px;text-align:center}
+.photo-item .emoji{font-size:36px}
+.photo-item .name{font-size:16px;margin-top:4px}
+/* Life */
+.weather-row{display:flex;justify-content:space-around;align-items:center}
+.weather-left{text-align:center}
+.weather-left .emoji{font-size:44px}
+.weather-left .temp{font-size:30px;font-weight:bold}
+.weather-left .desc{font-size:16px;color:var(--textSec)}
+.weather-right{font-size:16px;color:var(--textSec);line-height:1.8}
+.weather-right .good{color:var(--primary)}
+.news-item{padding:10px 0;border-bottom:1px solid var(--border);cursor:pointer}
+.news-item:active{background:#f0f0f0}
+.news-title{font-size:16px;font-weight:500}
+.news-meta{font-size:13px;color:var(--textSec);margin-top:4px}
+.emer-grid{display:flex;flex-wrap:wrap;gap:10px}
+.emer-btn{width:47%;background:#FFF3F3;border:1px solid #FFCDD2;border-radius:12px;padding:14px;text-align:center;cursor:pointer}
+.emer-btn:active{background:#FFCDD2}
+.emer-btn .emoji{font-size:26px}
+.emer-btn .num{font-size:18px;font-weight:bold;color:var(--danger)}
+.emer-btn .name{font-size:13px;color:var(--textSec)}
+/* Profile */
+.profile-header{display:flex;align-items:center;margin-bottom:12px}
+.profile-header .emoji{font-size:50px}
+.profile-info{margin-left:12px}
+.profile-name{font-size:22px;font-weight:bold}
+.profile-phone{font-size:16px;color:var(--textSec)}
+.font-btns{display:flex;gap:10px}
+.font-btn{flex:1;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center;cursor:pointer;font-weight:bold}
+.font-btn.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+.setting-row{display:flex;align-items:center;padding:12px 0;border-bottom:1px solid var(--border);cursor:pointer}
+.setting-row:active{background:#f8f8f8}
+.setting-icon{font-size:22px;margin-right:12px}
+.setting-label{flex:1}
+.setting-name{font-size:16px}
+.setting-desc{font-size:13px;color:var(--textSec)}
+.setting-arrow{font-size:18px;color:var(--textSec)}
+/* Tab Bar */
+.tab-bar{display:flex;background:var(--card);border-top:1px solid var(--border);padding:4px 0;padding-bottom:max(4px,env(safe-area-inset-bottom))}
+.tab{flex:1;text-align:center;padding:6px 0;cursor:pointer;border:none;background:none;font-size:inherit;border-top:2px solid transparent}
+.tab.active{border-top-color:var(--primary)}
+.tab .emoji{font-size:22px;display:block;opacity:0.5;transition:.2s}
+.tab.active .emoji{opacity:1}
+.tab .label{font-size:13px;color:var(--textSec);display:block}
+.tab.active .label{color:var(--primary);font-weight:bold}
+/* Modal */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:100;justify-content:center;align-items:center}
+.modal-overlay.show{display:flex}
+.modal{background:#fff;border-radius:16px;padding:24px;margin:20px;max-width:320px;width:100%;text-align:center}
+.modal h3{font-size:20px;margin-bottom:12px}
+.modal p{font-size:16px;color:var(--textSec);margin-bottom:20px}
+.modal-btns{display:flex;gap:10px;justify-content:center}
+.modal-btn{padding:10px 24px;border-radius:10px;border:none;font-size:16px;cursor:pointer;font-weight:600}
+.modal-cancel{background:var(--bg);color:var(--text)}
+.modal-confirm{background:var(--primary);color:#fff}
 </style>
 </head>
 <body>
-<div id="root">
-<header>🏠 智慧生活</header>
-<main>
-<div class="info-card">
-<div class="info-row"><span class="info-label">服务名称</span><span class="info-value">智慧生活管家</span></div>
-<div class="info-row"><span class="info-label">版本</span><span class="info-value">2.0</span></div>
-<div class="info-row"><span class="info-label">状态</span><span class="info-value">🟢 运行中</span></div>
+<div id="app">
+  <!-- Home -->
+  <div class="screen active" id="screen-home">
+    <div class="header"><h1>🏠 智慧生活</h1><p id="dateStr"></p></div>
+    <div class="card"><div class="card-title"><span>💡</span><span>今日小贴士</span></div><p id="tipText" style="font-size:17px;line-height:1.6"></p></div>
+    <div class="section-title">快捷功能</div>
+    <div class="grid">
+      <button class="icon-btn" onclick="switchTab('health')"><span class="emoji">💊</span><span class="label">用药提醒</span></button>
+      <button class="icon-btn" onclick="switchTab('health')"><span class="emoji">📊</span><span class="label">健康记录</span></button>
+      <button class="icon-btn" onclick="switchTab('social')"><span class="emoji">📞</span><span class="label">联系家人</span></button>
+      <button class="icon-btn" onclick="switchTab('life')"><span class="emoji">🌤️</span><span class="label">天气预报</span></button>
+      <button class="icon-btn" onclick="switchTab('life')"><span class="emoji">📰</span><span class="label">新闻资讯</span></button>
+      <button class="icon-btn" onclick="switchTab('life')"><span class="emoji">🆘</span><span class="label">紧急电话</span></button>
+    </div>
+    <div class="card"><div class="card-title"><span>🆘</span><span>紧急求助</span></div><button class="danger-btn" onclick="showModal('紧急呼叫','正在拨打120急救电话...')">📞 一键拨打 120</button></div>
+  </div>
+
+  <!-- Health -->
+  <div class="screen" id="screen-health">
+    <div class="header"><h1>💊 健康管理</h1></div>
+    <div class="card"><div class="card-title"><span>💊</span><span>用药提醒</span></div><div id="medList"></div></div>
+    <div class="card"><div class="card-title"><span>📝</span><span>记录健康数据</span></div>
+      <p style="font-size:15px;color:var(--textSec);margin-bottom:4px">血压 (mmHg)</p>
+      <div class="input-row"><input id="bpSys" placeholder="收缩压" type="number"><span>/</span><input id="bpDia" placeholder="舒张压" type="number"></div>
+      <p style="font-size:15px;color:var(--textSec);margin-bottom:4px">血糖 (mmol/L)</p>
+      <div class="input-row"><input id="sugarVal" placeholder="血糖值" type="number"></div>
+      <button class="save-btn" onclick="saveRecord()">💾 保存记录</button>
+    </div>
+    <div class="card"><div class="card-title"><span>📊</span><span>历史记录</span></div><div id="recordList"></div></div>
+  </div>
+
+  <!-- Social -->
+  <div class="screen" id="screen-social">
+    <div class="header"><h1>📞 亲友联系</h1></div>
+    <div class="card"><div class="card-title"><span>📞</span><span>一键拨号</span></div><div id="contactList"></div></div>
+    <div class="card"><div class="card-title"><span>📸</span><span>照片分享</span></div>
+      <div class="photo-grid">
+        <div class="photo-item"><div class="emoji">🌸</div><div class="name">花园</div></div>
+        <div class="photo-item"><div class="emoji">🍲</div><div class="name">家常菜</div></div>
+        <div class="photo-item"><div class="emoji">🌅</div><div class="name">夕阳</div></div>
+        <div class="photo-item"><div class="emoji">🎂</div><div class="name">生日</div></div>
+        <div class="photo-item"><div class="emoji">🐕</div><div class="name">小狗</div></div>
+        <div class="photo-item"><div class="emoji">👨‍👩‍👧‍👦</div><div class="name">全家福</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Life -->
+  <div class="screen" id="screen-life">
+    <div class="header"><h1>🌤️ 生活服务</h1></div>
+    <div class="card"><div class="card-title"><span>🌤️</span><span>今日天气</span></div>
+      <div class="weather-row">
+        <div class="weather-left"><div class="emoji">☀️</div><div class="temp">24°C</div><div class="desc">晴</div></div>
+        <div class="weather-right">🌡️ 最高 28°C / 最低 16°C<br>💨 微风 2级<br>💧 湿度 45%<br><span class="good">✅ 适合户外散步</span></div>
+      </div>
+    </div>
+    <div class="card"><div class="card-title"><span>📰</span><span>新闻资讯</span></div><div id="newsList"></div></div>
+    <div class="card"><div class="card-title"><span>🆘</span><span>紧急电话</span></div>
+      <div class="emer-grid">
+        <div class="emer-btn" onclick="showModal('拨号','拨打急救 120')"><div class="emoji">🚑</div><div class="num">120</div><div class="name">急救</div></div>
+        <div class="emer-btn" onclick="showModal('拨号','拨打报警 110')"><div class="emoji">👮</div><div class="num">110</div><div class="name">报警</div></div>
+        <div class="emer-btn" onclick="showModal('拨号','拨打火警 119')"><div class="emoji">🚒</div><div class="num">119</div><div class="name">火警</div></div>
+        <div class="emer-btn" onclick="showModal('拨号','拨打社区服务 12345')"><div class="emoji">🏢</div><div class="num">12345</div><div class="name">社区服务</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Profile -->
+  <div class="screen" id="screen-profile">
+    <div class="header"><h1>⚙️ 我的</h1></div>
+    <div class="card"><div class="profile-header"><span class="emoji">👴</span><div class="profile-info"><div class="profile-name">张大伯</div><div class="profile-phone">138****1234</div></div></div></div>
+    <div class="card"><div class="card-title"><span>🔤</span><span>字体大小</span></div>
+      <div class="font-btns">
+        <button class="font-btn" onclick="setFontSize('中',this)">中</button>
+        <button class="font-btn active" onclick="setFontSize('大',this)">大</button>
+        <button class="font-btn" onclick="setFontSize('特大',this)">特大</button>
+      </div>
+    </div>
+    <div class="card"><div class="card-title"><span>⚙️</span><span>设置</span></div>
+      <div class="setting-row"><span class="setting-icon">🔔</span><div class="setting-label"><div class="setting-name">消息提醒</div><div class="setting-desc">用药、天气、新闻推送</div></div><span class="setting-arrow">›</span></div>
+      <div class="setting-row"><span class="setting-icon">🔒</span><div class="setting-label"><div class="setting-name">隐私安全</div><div class="setting-desc">密码、指纹解锁</div></div><span class="setting-arrow">›</span></div>
+      <div class="setting-row"><span class="setting-icon">💾</span><div class="setting-label"><div class="setting-name">数据备份</div><div class="setting-desc">健康数据云端保存</div></div><span class="setting-arrow">›</span></div>
+      <div class="setting-row"><span class="setting-icon">❓</span><div class="setting-label"><div class="setting-name">使用帮助</div><div class="setting-desc">操作指南、常见问题</div></div><span class="setting-arrow">›</span></div>
+      <div class="setting-row"><span class="setting-icon">💬</span><div class="setting-label"><div class="setting-name">意见反馈</div><div class="setting-desc">告诉我们您的建议</div></div><span class="setting-arrow">›</span></div>
+      <div class="setting-row"><span class="setting-icon">ℹ️</span><div class="setting-label"><div class="setting-name">关于我们</div><div class="setting-desc">版本 2.0.0</div></div><span class="setting-arrow">›</span></div>
+    </div>
+  </div>
+
+  <!-- Tab Bar -->
+  <div class="tab-bar">
+    <button class="tab active" onclick="switchTab('home')"><span class="emoji">🏠</span><span class="label">首页</span></button>
+    <button class="tab" onclick="switchTab('health')"><span class="emoji">💊</span><span class="label">健康</span></button>
+    <button class="tab" onclick="switchTab('social')"><span class="emoji">📞</span><span class="label">亲友</span></button>
+    <button class="tab" onclick="switchTab('life')"><span class="emoji">🌤️</span><span class="label">服务</span></button>
+    <button class="tab" onclick="switchTab('profile')"><span class="emoji">⚙️</span><span class="label">我的</span></button>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal-overlay" id="modalOverlay" onclick="hideModal()">
+    <div class="modal" onclick="event.stopPropagation()">
+      <h3 id="modalTitle"></h3>
+      <p id="modalMsg"></p>
+      <div class="modal-btns"><button class="modal-btn modal-cancel" onclick="hideModal()">取消</button><button class="modal-btn modal-confirm" onclick="hideModal()">确定</button></div>
+    </div>
+  </div>
 </div>
-<button class="btn" onclick="alert('功能开发中...')">📞 联系家人</button>
-<button class="btn btn-secondary" onclick="alert('功能开发中...')">🆘 紧急求助</button>
-<button class="btn" onclick="alert('功能开发中...')">📅 预约提醒</button>
-<button class="btn" onclick="alert('功能开发中...')">💊 用药提醒</button>
-</main>
-<footer>智慧生活 v2.0 © 2026</footer>
-</div>
-<script src="https://cdn.jsdelivr.net/gh/wiejjcj12/ElderCareApp2@master/docs/_expo/static/js/web/index-8944cf33c2c7b375480363e1c7291354.js" defer></script>
+
+<script>
+// Date & tip
+const d=new Date(),week=['日','一','二','三','四','五','六'];
+document.getElementById('dateStr').textContent=`${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日 星期${week[d.getDay()]}`;
+const tips=['每天散步30分钟，有助于心血管健康','饭后不宜立即剧烈运动，休息半小时最佳','多喝水，每天至少8杯水','保持心情愉快，笑一笑十年少','定期测量血压，关注健康变化'];
+document.getElementById('tipText').textContent=tips[d.getDate()%tips.length];
+
+// Medicines
+let meds=[{id:1,name:'降压药',time:'08:00',taken:false},{id:2,name:'钙片',time:'12:00',taken:true},{id:3,name:'维生素D',time:'20:00',taken:false}];
+function renderMeds(){document.getElementById('medList').innerHTML=meds.map(m=>`<div class="med-row"><div><div class="med-name${m.taken?' done':''}">${m.name}</div><div class="med-time">⏰ ${m.time}</div></div><label class="switch"><input type="checkbox" ${m.taken?'checked':''} onchange="toggleMed(${m.id})"><span class="slider"></span></label></div>`).join('')}
+function toggleMed(id){meds=meds.map(m=>m.id===id?{...m,taken:!m.taken}:m);renderMeds()}
+renderMeds();
+
+// Health records
+let records=[{id:1,type:'血压',value:'130/85',date:'05-19'},{id:2,type:'血糖',value:'5.8',date:'05-19'},{id:3,type:'血压',value:'128/82',date:'05-18'}];
+function renderRecords(){document.getElementById('recordList').innerHTML=records.map(r=>`<div class="record-row"><span>${r.type}</span><span class="record-val">${r.value}</span><span class="record-date">${r.date}</span></div>`).join('')}
+function saveRecord(){const s=document.getElementById('bpSys').value,di=document.getElementById('bpDia').value,su=document.getElementById('sugarVal').value,now=new Date(),ds=`${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;if(s&&di){records.unshift({id:Date.now(),type:'血压',value:`${s}/${di}`,date:ds});document.getElementById('bpSys').value='';document.getElementById('bpDia').value=''}if(su){records.unshift({id:Date.now()+1,type:'血糖',value:su,date:ds});document.getElementById('sugarVal').value=''}renderRecords()}
+renderRecords();
+
+// Contacts
+const contacts=[{name:'儿子',phone:'138****1234',emoji:'👨'},{name:'女儿',phone:'139****5678',emoji:'👩'},{name:'老伴',phone:'137****9012',emoji:'💑'},{name:'老友张哥',phone:'135****3456',emoji:'🤝'}];
+document.getElementById('contactList').innerHTML=contacts.map(c=>`<div class="contact-row"><span class="contact-emoji">${c.emoji}</span><div class="contact-info"><div class="contact-name">${c.name}</div><div class="contact-phone">${c.phone}</div></div><div class="contact-btns"><button class="contact-btn" onclick="showModal('拨号','拨打 ${c.name}')">📞</button><button class="contact-btn" onclick="showModal('视频','视频通话 ${c.name}')">📹</button></div></div>`).join('');
+
+// News
+const news=[{title:'国家出台养老新政策，惠及亿万老人',source:'人民日报',time:'2小时前'},{title:'春季养生指南：这几个习惯要坚持',source:'健康时报',time:'3小时前'},{title:'社区活动中心下周开放报名',source:'本地新闻',time:'5小时前'},{title:'医保报销比例再提高5%',source:'新华社',time:'昨天'}];
+document.getElementById('newsList').innerHTML=news.map(n=>`<div class="news-item"><div class="news-title">${n.title}</div><div class="news-meta">${n.source} · ${n.time}</div></div>`).join('');
+
+// Tab switching
+function switchTab(tab){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('screen-'+tab).classList.add('active');
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  event.target.closest('.tab').classList.add('active');
+  document.querySelector('.screen.active').scrollTop=0;
+}
+
+// Modal
+function showModal(title,msg){document.getElementById('modalTitle').textContent=title;document.getElementById('modalMsg').textContent=msg;document.getElementById('modalOverlay').classList.add('show')}
+function hideModal(){document.getElementById('modalOverlay').classList.remove('show')}
+
+// Font size
+function setFontSize(size,btn){document.querySelectorAll('.font-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');const scale={'中':14,'大':17,'特大':20};document.documentElement.style.fontSize=scale[size]+'px'}
+</script>
 </body>
 </html>
