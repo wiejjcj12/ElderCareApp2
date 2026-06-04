@@ -1,1 +1,42 @@
-PCFET0NUWVBFIGh0bWw+CjxodG1sIGxhbmc9ImVuIj4KICA8aGVhZD4KICAgIDxtZXRhIGNoYXJzZXQ9InV0Zi04IiAvPgogICAgPG1ldGEgaHR0cEVxdWl2PSJYLVVBLUNvbXBhdGlibGUiIGNvbnRlbnQ9IklFPWVkZ2UiIC8+CiAgICA8bWV0YSBuYW1lPSJ2aWV3cG9ydCIgY29udGVudD0id2lkdGg9ZGV2aWNlLXdpZHRoLCBpbml0aWFsLXNjYWxlPTEsIHNocmluay10by1maXQ9bm8iIC8+CiAgICA8dGl0bGU+RWxkZXJDYXJlQXBwMjwvdGl0bGU+CiAgICA8IS0tIFRoZSBgcmVhY3QtbmF0aXZlLXdlYmAgcmVjb21tZW5kZWQgc3R5bGUgcmVzZXQ6IGh0dHBzOi8vbmVjb2xhcy5naXRodWIuaW8vcmVhY3QtbmF0aXZlLXdlYi9kb2NzL3NldHVwLyNyb290LWVsZW1lbnQgLS0+CiAgICA8c3R5bGUgaWQ9ImV4cG8tcmVzZXQiPgogICAgICAvKiBUaGVzZSBzdHlsZXMgbWFrZSB0aGUgYm9keSBmdWxsLWhlaWdodCAqLwogICAgICBodG1sLAogICAgICBib2R5IHsKICAgICAgICBoZWlnaHQ6IDEwMCU7CiAgICAgIH0KICAgICAgLyogVGhlc2Ugc3R5bGVzIGRpc2FibGUgYm9keSBzY3JvbGxpbmcgaWYgeW91IGFyZSB1c2luZyA8U2Nyb2xsVmlldz4gKi8KICAgICAgYm9keSB7CiAgICAgICAgb3ZlcmZsb3c6IGhpZGRlbjsKICAgICAgfQogICAgICAvKiBUaGVzZSBzdHlsZXMgbWFrZSB0aGUgcm9vdCBlbGVtZW50IGZ1bGwtaGVpZ2h0ICovCiAgICAgICNyb290IHsKICAgICAgICBkaXNwbGF5OiBmbGV4OwogICAgICAgIGhlaWdodDogMTAwJTsKICAgICAgICBmbGV4OiAxOwogICAgICB9CiAgICA8L3N0eWxlPgogIDxsaW5rIHJlbD0iaWNvbiIgaHJlZj0iLi9mYXZpY29uLmljbyIgLz48L2hlYWQ+CgogIDxib2R5PgogICAgPCEtLSBVc2Ugc3RhdGljIHJlbmRlcmluZyB3aXRoIEV4cG8gUm91dGVyIHRvIHN1cHBvcnQgcnVubmluZyB3aXRob3V0IEphdmFTY3JpcHQuIC0tPgogICAgPG5vc2NyaXB0PgogICAgICBZb3UgbmVlZCB0byBlbmFibGUgSmF2YVNjcmlwdCB0byBydW4gdGhpcyBhcHAuCiAgICA8L25vc2NyaXB0PgogICAgPCEtLSBUaGUgcm9vdCBlbGVtZW50IGZvciB5b3VyIEV4cG8gYXBwLiAtLT4KICAgIDxkaXYgaWQ9InJvb3QiPjwvZGl2PgogIDxzY3JpcHQgc3JjPSIuL19leHBvL3N0YXRpYy9qcy93ZWIvaW5kZXgtODk0NGNmMzNjMmM3YjM3NTQ4MDM2M2UxYzcyOTEzNTQuanMiIGRlZmVyPjwvc2NyaXB0Pgo8L2JvZHk+CjwvaHRtbD4KDQo=
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ElderCareApp2</title>
+<style>
+html,body{height:100%}
+body{overflow:hidden}
+#root{display:flex;height:100%;flex-direction:column}
+*{margin:0;padding:0;box-sizing:border-box}
+header{background:#1976D2;color:#fff;padding:15px;font-size:20px;text-align:center;font-weight:bold}
+main{flex:1;padding:20px;overflow:auto;background:#f5f5f5}
+.btn{display:block;width:100%;max-width:400px;margin:10px auto;padding:15px 20px;background:#1976D2;color:#fff;border:none;border-radius:8px;font-size:16px;cursor:pointer}
+.btn:active{background:#1565C0}
+.btn-secondary{background:#4CAF50}
+.info-card{background:#fff;padding:15px;border-radius:8px;margin:15px 0;box-shadow:0 2px 4px rgba(0,0,0,0.1)}
+.info-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #eee}
+.info-label{color:#666}
+.info-value{font-weight:500}
+footer{background:#fafafa;padding:10px;text-align:center;color:#999;font-size:12px}
+</style>
+</head>
+<body>
+<div id="root">
+<header>🏠 智慧生活</header>
+<main>
+<div class="info-card">
+<div class="info-row"><span class="info-label">服务名称</span><span class="info-value">智慧生活管家</span></div>
+<div class="info-row"><span class="info-label">版本</span><span class="info-value">2.0</span></div>
+<div class="info-row"><span class="info-label">状态</span><span class="info-value">🟢 运行中</span></div>
+</div>
+<button class="btn" onclick="alert('功能开发中...')">📞 联系家人</button>
+<button class="btn btn-secondary" onclick="alert('功能开发中...')">🆘 紧急求助</button>
+<button class="btn" onclick="alert('功能开发中...')">📅 预约提醒</button>
+<button class="btn" onclick="alert('功能开发中...')">💊 用药提醒</button>
+</main>
+<footer>智慧生活 v2.0 © 2026</footer>
+</div>
+<script src="https://cdn.jsdelivr.net/gh/wiejjcj12/ElderCareApp2@master/docs/_expo/static/js/web/index-8944cf33c2c7b375480363e1c7291354.js" defer></script>
+</body>
+</html>
