@@ -4,6 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>智慧生活</title>
+<link rel="manifest" href="manifest.json">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="智慧生活">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" href="icon-192.png">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{--primary:#2E7D32;--primaryLight:#4CAF50;--primaryDark:#1B5E20;--accent:#FF6F00;--bg:#F5F5F5;--card:#FFF;--text:#212121;--textSec:#757575;--border:#E0E0E0;--danger:#D32F2F;--info:#1565C0}
@@ -262,6 +268,14 @@ function hideModal(){document.getElementById('modalOverlay').classList.remove('s
 
 // Font size
 function setFontSize(size,btn){document.querySelectorAll('.font-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');const scale={'中':14,'大':17,'特大':20};document.documentElement.style.fontSize=scale[size]+'px'}
+
+// PWA Service Worker
+if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(()=>{});}
+
+// Install prompt
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt',(e)=>{e.preventDefault();deferredPrompt=e;document.getElementById('installBanner').style.display='block';});
+document.getElementById('installBtn')&&document.getElementById('installBtn').addEventListener('click',()=>{if(deferredPrompt){deferredPrompt.prompt();deferredPrompt.userChoice.then(()=>{document.getElementById('installBanner').style.display='none';});}});
 </script>
 </body>
 </html>
